@@ -25,6 +25,7 @@ import { CumTopNPlugin } from './CumTopNPlugin';
 import { MFunctionsPlugin } from './MFunctionsPlugin';
 import { TmFunctionsPlugin } from './TmFunctionsPlugin';
 import { TmTopNPlugin } from './TmTopNPlugin';
+import { RowFunctionsPlugin } from './RowFunctionsPlugin';
 
 export const plugins = [
   AccumulatePlugin,
@@ -52,7 +53,8 @@ export const plugins = [
   CumTopNPlugin,
   MFunctionsPlugin,
   TmFunctionsPlugin,
-  TmTopNPlugin
+  TmTopNPlugin,
+  RowFunctionsPlugin
 ];
 
 export const registerPlugins = () => {
