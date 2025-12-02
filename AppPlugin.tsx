@@ -112,41 +112,45 @@ export default function AppPlugin() {
         {/* UI Overlay (Controls) */}
         <div className="absolute top-4 right-4 z-10 flex flex-col gap-4">
           {/* Playback Controls */}
-          <div className="bg-gray-900 p-4 rounded border border-gray-700 text-white">
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={() => {
-                  if (!isPlaying && progress >= maxSteps) {
-                    setProgress(0);
-                  }
-                  setIsPlaying(!isPlaying);
-                }}
-                className="px-4 py-2 bg-cyan-600 rounded hover:bg-cyan-500 font-bold"
-              >
-                {isPlaying ? 'Pause' : 'Play'}
-              </button>
-              <button 
-                onClick={() => { setProgress(0); setIsPlaying(false); }}
-                className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600"
-              >
-                Reset
-              </button>
-              <div className="text-sm font-mono">
-                Progress: {progress.toFixed(2)} / {maxSteps}
+          <div className="bg-gray-900 p-2 rounded border border-gray-700 text-white w-64">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => {
+                    if (!isPlaying && progress >= maxSteps) {
+                      setProgress(0);
+                    }
+                    setIsPlaying(!isPlaying);
+                  }}
+                  className="px-3 py-1 bg-cyan-600 rounded hover:bg-cyan-500 font-bold text-xs"
+                >
+                  {isPlaying ? 'Pause' : 'Play'}
+                </button>
+                <button 
+                  onClick={() => { setProgress(0); setIsPlaying(false); }}
+                  className="px-3 py-1 bg-gray-700 rounded hover:bg-gray-600 text-xs"
+                >
+                  Reset
+                </button>
+              </div>
+              <div className="text-[10px] font-mono text-gray-400">
+                {progress.toFixed(1)} / {maxSteps}
               </div>
             </div>
           </div>
 
           {/* Plugin Specific Controls */}
           {activePlugin && activePlugin.ParameterPanelComponent && (
-            <div className="bg-gray-900 border border-gray-700 rounded overflow-hidden">
-              <div className="bg-gray-800 p-2 font-bold text-gray-300 text-sm border-b border-gray-700">
+            <div className="bg-gray-900 border border-gray-700 rounded overflow-hidden w-64 max-h-[60vh] flex flex-col">
+              <div className="bg-gray-800 p-2 font-bold text-gray-300 text-sm border-b border-gray-700 shrink-0">
                 Parameters
               </div>
-              <activePlugin.ParameterPanelComponent 
-                params={params} 
-                setParams={setParams} 
-              />
+              <div className="overflow-y-auto p-2">
+                <activePlugin.ParameterPanelComponent 
+                  params={params} 
+                  setParams={setParams} 
+                />
+              </div>
             </div>
           )}
         </div>

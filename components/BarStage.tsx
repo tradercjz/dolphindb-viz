@@ -11,12 +11,21 @@ interface BarStageProps {
       interval: number;
       closed: 'left' | 'right';
       grid: number[];
+      error: string | null;
   };
 }
 
 const X_SCALE = 0.8;
 
 export const BarStage: React.FC<BarStageProps> = ({ progress, logic }) => {
+  if (logic.error) {
+      return <Text color="red">{logic.error}</Text>;
+  }
+
+  if (logic.items.length === 0) {
+      return <Text color="gray">No Data</Text>;
+  }
+
   // Center the visualization
   const minVal = logic.grid[0];
   const maxVal = logic.grid[logic.grid.length - 1];
@@ -28,32 +37,49 @@ export const BarStage: React.FC<BarStageProps> = ({ progress, logic }) => {
             bar(X, {logic.interval}, closed='{logic.closed}')
         </Text>
 
-        {/* Grid / Number Line */}
+        {/* Grid / Intervals */}
         <group position={[0, -2, 0]}>
             <Line 
                 points={[[minVal * X_SCALE - 2, 0, 0], [maxVal * X_SCALE + 2, 0, 0]]} 
                 color="#555" 
                 lineWidth={2} 
             />
-            {logic.grid.map(val => (
-                <GridMark key={val} val={val} interval={logic.interval} />
-            ))}
+            {logic.grid.map((val, i) => {
+                // Draw interval region if not last
+                if (i < logic.grid.length - 1) {
+                    const nextVal = logic.grid[i+1];
+                    const width = (nextVal - val) * X_SCALE;
+                    const centerX = (val * X_SCALE) + width / 2;
+                    return (
+                        <group key={`interval-${val}`}>
+                            <GridMark val={val} />
+                            {/* Interval shading */}
+                            <mesh position={[centerX, 0.5, -0.1]}>
+                                <planeGeometry args={[width - 0.1, 2]} />
+                                <meshBasicMaterial color="#333" transparent opacity={0.2} />
+                            </mesh>
+                        </group>
+                    );
+                }
+                return <GridMark key={val} val={val} />;
+            })}
         </group>
 
         {/* Items */}
-        {logic.items.map(item => (
+        {logic.items.map((item, i) => (
             <Item 
                 key={item.id} 
                 item={item} 
                 progress={progress} 
                 closed={logic.closed}
+                index={i}
             />
         ))}
     </group>
   );
 };
 
-const GridMark = ({ val, interval }: { val: number, interval: number }) => {
+const GridMark = ({ val }: { val: number }) => {
     return (
         <group position={[val * X_SCALE, 0, 0]}>
             <mesh position={[0, 0.5, 0]}>
@@ -67,7 +93,7 @@ const GridMark = ({ val, interval }: { val: number, interval: number }) => {
     );
 };
 
-const Item = ({ item, progress, closed }: { item: BarItem, progress: number, closed: 'left' | 'right' }) => {
+const Item = ({ item, progress, closed, index }: { item: BarItem, progress: number, closed: 'left' | 'right', index: number }) => {
     // Phase 0-1: Show original
     // Phase 1-2: Show calculation / formula
     // Phase 2-3: Move to target
@@ -79,9 +105,8 @@ const Item = ({ item, progress, closed }: { item: BarItem, progress: number, clo
     // Target X position
     const targetX = (isMoving ? item.barVal : item.val) * X_SCALE;
     
-    // Y position: Start high, drop down to line? Or just stay on line?
-    // Let's have them float above the line.
-    const y = 1.5;
+    // Stagger Y position slightly to avoid overlap if values are close
+    const y = 1.5 + (index % 2) * 0.5;
 
     const { x, valColor } = useSpring({
         x: targetX,

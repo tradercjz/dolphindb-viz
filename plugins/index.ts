@@ -35,8 +35,18 @@ import { GroupsPlugin } from './GroupsPlugin';
 import { SegmentPlugin } from './SegmentPlugin';
 import { VolumeBarPlugin } from './VolumeBarPlugin';
 import { FlattenPlugin } from './FlattenPlugin';
+import { RegroupPlugin } from './RegroupPlugin';
+import { ReshapePlugin } from './ReshapePlugin';
+import { ShufflePlugin } from './ShufflePlugin';
+import { ShuffleInPlacePlugin } from './ShuffleInPlacePlugin';
+import { UngroupPlugin } from './UngroupPlugin';
 
 export const plugins = [
+  UngroupPlugin,
+  ShuffleInPlacePlugin,
+  ShufflePlugin,
+  ReshapePlugin,
+  RegroupPlugin,
   FlattenPlugin,
   VolumeBarPlugin,
   SegmentPlugin,

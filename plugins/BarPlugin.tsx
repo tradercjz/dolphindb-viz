@@ -9,7 +9,7 @@ const BarScene: React.FC<{
   params: any;
   onStepsReady?: (steps: number) => void;
 }> = ({ progress, params, onStepsReady }) => {
-  const logic = useBarLogic(params.interval, params.closed);
+  const logic = useBarLogic(params.X, params.interval, params.closed);
 
   React.useEffect(() => {
     if (onStepsReady) {
@@ -25,32 +25,42 @@ const BarParams: React.FC<{
   setParams: (params: any) => void;
 }> = ({ params, setParams }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <div>
-        <label className="text-xs text-gray-400 mb-1 block">Interval</label>
+        <label className="text-[10px] text-gray-400 mb-1 block uppercase tracking-wider">X (Vector/Scalar)</label>
+        <input
+          type="text"
+          value={params.X}
+          onChange={(e) => setParams({ ...params, X: e.target.value })}
+          className="w-full bg-gray-800 text-white px-2 py-1 rounded border border-gray-700 text-xs"
+          placeholder="e.g. 1..10"
+        />
+      </div>
+      <div>
+        <label className="text-[10px] text-gray-400 mb-1 block uppercase tracking-wider">Interval</label>
         <input
           type="number"
           min="1"
           max="10"
           value={params.interval}
           onChange={(e) => setParams({ ...params, interval: Number(e.target.value) })}
-          className="w-full bg-gray-800 text-white px-2 py-1 rounded border border-gray-700 text-sm"
+          className="w-full bg-gray-800 text-white px-2 py-1 rounded border border-gray-700 text-xs"
         />
       </div>
       <div>
-        <label className="text-xs text-gray-400 mb-1 block">Closed</label>
+        <label className="text-[10px] text-gray-400 mb-1 block uppercase tracking-wider">Closed</label>
         <select
           value={params.closed}
           onChange={(e) => setParams({ ...params, closed: e.target.value })}
-          className="w-full bg-gray-800 text-white px-2 py-1 rounded border border-gray-700 text-sm"
+          className="w-full bg-gray-800 text-white px-2 py-1 rounded border border-gray-700 text-xs"
         >
           <option value="left">left</option>
           <option value="right">right</option>
         </select>
       </div>
-      <div className="text-xs text-gray-500 mt-2">
+      <div className="text-[10px] text-gray-500 mt-2 leading-tight border-t border-gray-800 pt-2">
         <p>Calculates grouping key based on interval.</p>
-        <p className="mt-1">
+        <p className="mt-1 italic">
           {params.closed === 'left' 
             ? "Left: X - (X % interval)" 
             : "Right: Snaps to right boundary"}
@@ -67,6 +77,7 @@ export const BarPlugin: Plugin = {
   SceneComponent: BarScene,
   ParameterPanelComponent: BarParams,
   defaultParams: {
+    X: '1, 3, 5, 7, 9, 10, 12, 14, 15, 18',
     interval: 3,
     closed: 'left'
   }
