@@ -33,8 +33,10 @@ import { DailyAlignedBarPlugin } from './DailyAlignedBarPlugin';
 import { DigitizePlugin } from './DigitizePlugin';
 import { GroupsPlugin } from './GroupsPlugin';
 import { SegmentPlugin } from './SegmentPlugin';
+import { VolumeBarPlugin } from './VolumeBarPlugin';
 
 export const plugins = [
+  VolumeBarPlugin,
   SegmentPlugin,
   GroupsPlugin,
   DigitizePlugin,
