@@ -22,6 +22,7 @@ import { RollingPlugin } from './RollingPlugin';
 import { RowGroupbyPlugin } from './RowGroupbyPlugin';
 import { CumPlugin } from './CumPlugin';
 import { CumTopNPlugin } from './CumTopNPlugin';
+import { MFunctionsPlugin } from './MFunctionsPlugin';
 
 export const plugins = [
   AccumulatePlugin,
@@ -46,7 +47,8 @@ export const plugins = [
   RollingPlugin,
   RowGroupbyPlugin,
   CumPlugin,
-  CumTopNPlugin
+  CumTopNPlugin,
+  MFunctionsPlugin
 ];
 
 export const registerPlugins = () => {
