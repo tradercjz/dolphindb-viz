@@ -24,6 +24,7 @@ import { CumPlugin } from './CumPlugin';
 import { CumTopNPlugin } from './CumTopNPlugin';
 import { MFunctionsPlugin } from './MFunctionsPlugin';
 import { TmFunctionsPlugin } from './TmFunctionsPlugin';
+import { TmTopNPlugin } from './TmTopNPlugin';
 
 export const plugins = [
   AccumulatePlugin,
@@ -50,7 +51,8 @@ export const plugins = [
   CumPlugin,
   CumTopNPlugin,
   MFunctionsPlugin,
-  TmFunctionsPlugin
+  TmFunctionsPlugin,
+  TmTopNPlugin
 ];
 
 export const registerPlugins = () => {
