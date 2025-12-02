@@ -2,27 +2,24 @@ import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
-import { CumStep } from '../hooks/useCumLogic';
-import { COLORS, SPACING, CumFunc } from '../constants';
+import { CumTopNStep } from '../hooks/useCumTopNLogic';
+import { COLORS, SPACING, CumTopNFunc } from '../constants';
 
-interface CumStageProps {
+interface CumTopNStageProps {
   progress: number;
-  steps: CumStep[];
-  func: CumFunc;
+  steps: CumTopNStep[];
+  func: CumTopNFunc;
 }
 
-export const CumStage: React.FC<CumStageProps> = ({ progress, steps, func }) => {
+export const CumTopNStage: React.FC<CumTopNStageProps> = ({ progress, steps, func }) => {
   const groupRef = useRef<THREE.Group>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // Determine if binary function
   const isBinary = [
-    'cumwsum', 'cumwavg', 'cumcovar', 'cumcorr', 'cumbeta'
+    'cumbetaTopN', 'cumcorrTopN', 'cumcovarTopN', 'cumwsumTopN'
   ].includes(func);
 
-  // If hovering, use that step. Otherwise, show all data without highlighting window.
-  // We use the last step to get the full result vector.
-  // Each step has the full input arrays, so any step works for inputs.
   const finalStep = steps[steps.length - 1];
   
   // Determine active step based on progress or hover
@@ -66,22 +63,23 @@ export const CumStage: React.FC<CumStageProps> = ({ progress, steps, func }) => 
       {/* Data Visualization */}
       <group position={[-SPACING.x * 2, 0, 0]}>
         {finalStep.inputX.map((val, idx) => {
-          // Logic for highlighting based on activeStep
           let isCurrent = false;
           let isInWindow = false;
+          let isSelectedTopN = false;
 
           if (activeStep) {
             isCurrent = idx === activeStep.index;
             isInWindow = idx <= activeStep.index;
+            isSelectedTopN = activeStep.topNIndices?.includes(idx) || false;
           }
           
           // Color logic
           let color = COLORS.inactive;
           if (isCurrent) color = COLORS.gold;
+          else if (isSelectedTopN) color = COLORS.success; // Highlight TopN selected
           else if (isInWindow) color = COLORS.primary;
-          else color = COLORS.inactive; 
+          else color = COLORS.inactive;
 
-          // If not hovering, show all as primary (visible)
           const finalColor = activeStep ? color : COLORS.primary;
           const finalOpacity = activeStep ? (isInWindow ? 1 : 0.3) : 0.8;
           const textColor = (finalColor === COLORS.inactive) ? COLORS.glass : 'black';
@@ -94,7 +92,7 @@ export const CumStage: React.FC<CumStageProps> = ({ progress, steps, func }) => 
                 <meshStandardMaterial 
                   color={finalColor}
                   transparent
-                  opacity={finalOpacity} 
+                  opacity={finalOpacity}
                 />
               </mesh>
               {/* Value Text */}
@@ -121,14 +119,17 @@ export const CumStage: React.FC<CumStageProps> = ({ progress, steps, func }) => 
         {isBinary && finalStep.inputY.map((val, idx) => {
           let isCurrent = false;
           let isInWindow = false;
+          let isSelectedTopN = false;
 
           if (activeStep) {
             isCurrent = idx === activeStep.index;
             isInWindow = idx <= activeStep.index;
+            isSelectedTopN = activeStep.topNIndices?.includes(idx) || false;
           }
 
           let color = COLORS.inactive;
           if (isCurrent) color = COLORS.gold;
+          else if (isSelectedTopN) color = COLORS.success;
           else if (isInWindow) color = COLORS.secondary;
           else color = COLORS.inactive;
 
@@ -158,6 +159,56 @@ export const CumStage: React.FC<CumStageProps> = ({ progress, steps, func }) => 
               {idx === 0 && (
                 <Text position={[-1.5, 0, 0]} fontSize={0.3} color={COLORS.glass}>
                   Y
+                </Text>
+              )}
+            </group>
+          );
+        })}
+
+        {/* S Row (TopN) - Always visible for TopN functions */}
+        {finalStep.inputS.map((val, idx) => {
+          let isCurrent = false;
+          let isInWindow = false;
+          let isSelectedTopN = false;
+
+          if (activeStep) {
+            isCurrent = idx === activeStep.index;
+            isInWindow = idx <= activeStep.index;
+            isSelectedTopN = activeStep.topNIndices?.includes(idx) || false;
+          }
+
+          let color = COLORS.inactive;
+          if (isCurrent) color = COLORS.gold;
+          else if (isSelectedTopN) color = COLORS.success;
+          else if (isInWindow) color = COLORS.sortCol;
+          else color = COLORS.inactive;
+
+          const finalColor = activeStep ? color : COLORS.sortCol;
+          const finalOpacity = activeStep ? (isInWindow ? 1 : 0.3) : 0.8;
+          const textColor = (finalColor === COLORS.inactive) ? COLORS.glass : 'black';
+
+          return (
+            <group key={`s-${idx}`} position={[idx * 1.2, isBinary ? -1 : 0, 0]}>
+              <mesh>
+                <boxGeometry args={[0.8, 0.8, 0.8]} />
+                <meshStandardMaterial 
+                  color={finalColor}
+                  transparent
+                  opacity={finalOpacity}
+                />
+              </mesh>
+              <Text
+                position={[0, 0, 1]}
+                fontSize={0.3}
+                color={textColor}
+                anchorX="center"
+                anchorY="middle"
+              >
+                {val}
+              </Text>
+              {idx === 0 && (
+                <Text position={[-1.5, 0, 0]} fontSize={0.3} color={COLORS.glass}>
+                  S
                 </Text>
               )}
             </group>

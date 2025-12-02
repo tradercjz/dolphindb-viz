@@ -37,13 +37,11 @@ const rank = (arr: number[], val: number) => {
     return sorted.indexOf(val); 
 };
 
-const count = (arr: number[]) => arr.filter(x => x !== null && x !== undefined).length; // Assuming no nulls in our data, it's length.
+const count = (arr: number[]) => arr.filter(x => x !== null && x !== undefined).length;
 
 const percentile = (arr: number[], p: number) => {
     if (!arr.length) return 0;
     const sorted = [...arr].sort((a, b) => a - b);
-    // Linear interpolation for percentile
-    // p is 0-100
     const index = (p / 100) * (sorted.length - 1);
     const lower = Math.floor(index);
     const upper = Math.ceil(index);
@@ -53,7 +51,7 @@ const percentile = (arr: number[], p: number) => {
 };
 
 const variance = (arr: number[], population: boolean) => {
-    if (arr.length < 2 && !population) return 0; // Sample var needs n > 1
+    if (arr.length < 2 && !population) return 0;
     if (arr.length === 0) return 0;
     const m = avg(arr);
     const sqDiff = arr.map(x => Math.pow(x - m, 2));
@@ -74,7 +72,7 @@ const covar = (x: number[], y: number[], population: boolean) => {
 };
 
 const corr = (x: number[], y: number[]) => {
-    const cv = covar(x, y, false); // Sample covar
+    const cv = covar(x, y, false);
     const sx = std(x, false);
     const sy = std(y, false);
     if (sx === 0 || sy === 0) return 0;
@@ -82,8 +80,7 @@ const corr = (x: number[], y: number[]) => {
 };
 
 const beta = (y: number[], x: number[]) => {
-    // Slope of Y on X = Cov(X, Y) / Var(X)
-    const cv = covar(x, y, true); // Population or Sample cancels out
+    const cv = covar(x, y, true);
     const vx = variance(x, true);
     if (vx === 0) return 0;
     return cv / vx;
@@ -94,13 +91,14 @@ export const useCumLogic = (func: CumFunc, param?: number): CumStep[] => {
     const steps: CumStep[] = [];
     const resultVector: number[] = [];
     
-    // State for cumPositiveStreak
     let currentStreak = 0;
 
     for (let i = 0; i < CUM_X.length; i++) {
+      const windowIndices = Array.from({ length: i + 1 }, (_, k) => k);
       const windowX = CUM_X.slice(0, i + 1);
       const windowY = CUM_Y.slice(0, i + 1);
       const currentX = CUM_X[i];
+      const currentY = CUM_Y[i];
       
       let result = 0;
       let calcStr = '';
@@ -132,13 +130,10 @@ export const useCumLogic = (func: CumFunc, param?: number): CumStep[] => {
           calcStr = `median(${windowX.join(', ')})`;
           break;
         case 'cumfirstNot':
-          // Assuming checking for non-null (or non-zero if we wanted). 
-          // Since data has no nulls, it's just the first element.
           result = windowX[0]; 
           calcStr = `first(${windowX.join(', ')})`;
           break;
         case 'cumlastNot':
-          // Last non-null.
           result = windowX[windowX.length - 1];
           calcStr = `last(${windowX.join(', ')})`;
           break;
@@ -217,7 +212,6 @@ export const useCumLogic = (func: CumFunc, param?: number): CumStep[] => {
           calcStr = `corr(X, Y)`;
           break;
         case 'cumbeta':
-          // cumbeta(Y, X) -> Slope of Y on X
           result = parseFloat(beta(windowY, windowX).toFixed(2));
           calcStr = `beta(Y~X)`;
           break;
@@ -227,11 +221,11 @@ export const useCumLogic = (func: CumFunc, param?: number): CumStep[] => {
 
       steps.push({
         index: i,
-        windowIndices: Array.from({ length: i + 1 }, (_, k) => k),
+        windowIndices,
         inputX: CUM_X,
         inputY: CUM_Y,
-        currentValX: CUM_X[i],
-        currentValY: CUM_Y[i],
+        currentValX: currentX,
+        currentValY: currentY,
         calculation: `${calcStr} = ${result}`,
         result,
         resultVector: [...resultVector]

@@ -21,6 +21,7 @@ import { TMovingPlugin } from './TMovingPlugin';
 import { RollingPlugin } from './RollingPlugin';
 import { RowGroupbyPlugin } from './RowGroupbyPlugin';
 import { CumPlugin } from './CumPlugin';
+import { CumTopNPlugin } from './CumTopNPlugin';
 
 export const plugins = [
   AccumulatePlugin,
@@ -44,7 +45,8 @@ export const plugins = [
   TMovingPlugin,
   RollingPlugin,
   RowGroupbyPlugin,
-  CumPlugin
+  CumPlugin,
+  CumTopNPlugin
 ];
 
 export const registerPlugins = () => {

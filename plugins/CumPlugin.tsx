@@ -5,7 +5,10 @@ import { useCumLogic } from '../hooks/useCumLogic';
 import { CumFunc } from '../constants';
 
 const CumScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
-  const steps = useCumLogic(params.func || 'cumsum', params.percent);
+  const steps = useCumLogic(
+    params.func || 'cumsum', 
+    params.percent
+  );
 
   useEffect(() => {
     if (onStepsReady) {

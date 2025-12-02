@@ -157,6 +157,7 @@ export type RowGroupbyMode = 'tuple' | 'dict' | 'table';
 // Cum Series Data
 export const CUM_X = [1, 3, 2, 5, 4, 2];
 export const CUM_Y = [2, 1, 3, 1, 2, 4]; // Weights for wsum/wavg
+export const CUM_S = [5, 1, 3, 2, 4, 1]; // Sorting key for cumTopN
 
 export type FuncType = 'msum' | 'mavg' | 'move' | 'mmax' | 'mmin' | 'mcount' | 'tmsum';
 export type AccFunc = 'sum' | 'prod' | 'max';
@@ -170,6 +171,11 @@ export type CumFunc =
   | 'cumpercentile' | 'cumstd' | 'cumstdp' | 'cumvar' | 'cumvarp' 
   | 'cumsum2' | 'cumsum3' | 'cumsum4' | 'cumnunique' | 'cumPositiveStreak'
   | 'cumbeta' | 'cumwsum' | 'cumwavg' | 'cumcovar' | 'cumcorr';
+
+export type CumTopNFunc = 
+  | 'cumsumTopN' | 'cumavgTopN' | 'cumstdTopN' | 'cumstdpTopN' 
+  | 'cumvarTopN' | 'cumvarpTopN' | 'cumskewTopN' | 'cumkurtosisTopN'
+  | 'cumbetaTopN' | 'cumcorrTopN' | 'cumcovarTopN' | 'cumwsumTopN';
 
 export type AppMode = 
   | 'conditionalIterate' 
@@ -194,7 +200,8 @@ export type AppMode =
   | 'tmoving'
   | 'rolling'
   | 'rowGroupby'
-  | 'cum';
+  | 'cum'
+  | 'cumTopN';
 
 // Default Simulation Parameters
 export const DEFAULTS = {
