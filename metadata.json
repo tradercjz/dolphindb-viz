@@ -1,0 +1,5 @@
+{
+  "name": "DolphinDB StateIterate Visualizer",
+  "description": "A 3D Cyberpunk data factory visualization demonstrating the stateIterate function mechanics with reactive state passing and windowing logic.",
+  "requestFramePermissions": []
+}
