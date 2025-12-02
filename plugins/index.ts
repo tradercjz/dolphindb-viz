@@ -30,8 +30,10 @@ import { BarPlugin } from './BarPlugin';
 import { BucketPlugin } from './BucketPlugin';
 import { CutPointsPlugin } from './CutPointsPlugin';
 import { DailyAlignedBarPlugin } from './DailyAlignedBarPlugin';
+import { DigitizePlugin } from './DigitizePlugin';
 
 export const plugins = [
+  DigitizePlugin,
   DailyAlignedBarPlugin,
   CutPointsPlugin,
   BucketPlugin,
