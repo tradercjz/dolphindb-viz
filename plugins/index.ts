@@ -29,8 +29,10 @@ import { RowFunctionsPlugin } from './RowFunctionsPlugin';
 import { BarPlugin } from './BarPlugin';
 import { BucketPlugin } from './BucketPlugin';
 import { CutPointsPlugin } from './CutPointsPlugin';
+import { DailyAlignedBarPlugin } from './DailyAlignedBarPlugin';
 
 export const plugins = [
+  DailyAlignedBarPlugin,
   CutPointsPlugin,
   BucketPlugin,
   BarPlugin,
