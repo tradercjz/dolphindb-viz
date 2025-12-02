@@ -26,8 +26,10 @@ import { MFunctionsPlugin } from './MFunctionsPlugin';
 import { TmFunctionsPlugin } from './TmFunctionsPlugin';
 import { TmTopNPlugin } from './TmTopNPlugin';
 import { RowFunctionsPlugin } from './RowFunctionsPlugin';
+import { BarPlugin } from './BarPlugin';
 
 export const plugins = [
+  BarPlugin,
   AccumulatePlugin,
   ConditionalIteratePlugin,
   TmSeriesPlugin,
