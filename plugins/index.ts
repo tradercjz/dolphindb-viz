@@ -28,8 +28,10 @@ import { TmTopNPlugin } from './TmTopNPlugin';
 import { RowFunctionsPlugin } from './RowFunctionsPlugin';
 import { BarPlugin } from './BarPlugin';
 import { BucketPlugin } from './BucketPlugin';
+import { CutPointsPlugin } from './CutPointsPlugin';
 
 export const plugins = [
+  CutPointsPlugin,
   BucketPlugin,
   BarPlugin,
   AccumulatePlugin,
