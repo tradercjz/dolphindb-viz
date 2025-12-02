@@ -16,6 +16,7 @@ import { GroupbyPlugin } from './GroupbyPlugin';
 import { ContextbyPlugin } from './ContextbyPlugin';
 import { SegmentbyPlugin } from './SegmentbyPlugin';
 import { WindowPlugin } from './WindowPlugin';
+import { TWindowPlugin } from './TWindowPlugin';
 import { RollingPlugin } from './RollingPlugin';
 
 export const plugins = [
@@ -36,6 +37,7 @@ export const plugins = [
   ContextbyPlugin,
   SegmentbyPlugin,
   WindowPlugin,
+  TWindowPlugin,
   RollingPlugin
 ];
 
