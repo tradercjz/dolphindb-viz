@@ -12,7 +12,8 @@ interface MFunctionsStageProps {
 }
 
 export const MFunctionsStage: React.FC<MFunctionsStageProps> = ({ progress, logic, funcName }) => {
-  const activeIndex = Math.min(Math.floor(progress), logic.length - 1);
+  const rawActiveIndex = Math.floor(progress);
+  const activeIndex = Math.min(rawActiveIndex, logic.length - 1);
   const transition = progress % 1;
   const currentStep = logic[activeIndex];
 
@@ -57,7 +58,7 @@ export const MFunctionsStage: React.FC<MFunctionsStageProps> = ({ progress, logi
         {/* Result Track (Persistent) */}
         <ResultTrack 
             logic={logic}
-            activeIndex={activeIndex}
+            activeIndex={rawActiveIndex}
             getX={getX}
             y={RESULT_Y}
         />

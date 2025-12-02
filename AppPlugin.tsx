@@ -58,6 +58,22 @@ export default function AppPlugin() {
     return () => cancelAnimationFrame(animationFrameId);
   }, [isPlaying, maxSteps]);
 
+  // Keyboard Shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        e.preventDefault(); // Prevent scrolling
+        if (!isPlaying && progress >= maxSteps) {
+          setProgress(0);
+        }
+        setIsPlaying(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isPlaying, progress, maxSteps]);
+
   return (
     <div className="relative w-full h-screen bg-[#050505] overflow-hidden font-mono flex">
       {/* Sidebar */}
@@ -99,7 +115,12 @@ export default function AppPlugin() {
           <div className="bg-gray-900 p-4 rounded border border-gray-700 text-white">
             <div className="flex items-center gap-4">
               <button 
-                onClick={() => setIsPlaying(!isPlaying)}
+                onClick={() => {
+                  if (!isPlaying && progress >= maxSteps) {
+                    setProgress(0);
+                  }
+                  setIsPlaying(!isPlaying);
+                }}
                 className="px-4 py-2 bg-cyan-600 rounded hover:bg-cyan-500 font-bold"
               >
                 {isPlaying ? 'Pause' : 'Play'}
