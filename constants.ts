@@ -154,12 +154,22 @@ export const ROWGROUPBY_G = [
 
 export type RowGroupbyMode = 'tuple' | 'dict' | 'table';
 
+// Cum Series Data
+export const CUM_X = [1, 3, 2, 5, 4, 2];
+export const CUM_Y = [2, 1, 3, 1, 2, 4]; // Weights for wsum/wavg
+
 export type FuncType = 'msum' | 'mavg' | 'move' | 'mmax' | 'mmin' | 'mcount' | 'tmsum';
 export type AccFunc = 'sum' | 'prod' | 'max';
 export type PairFunc = 'sub' | 'add' | 'ratio';
 export type GroupFunc = 'sum' | 'avg' | 'max' | 'count';
 export type SegmentFunc = 'cumsum' | 'cummax' | 'cummin';
 export type WindowFunc = 'min' | 'max' | 'avg' | 'sum';
+export type CumFunc = 
+  | 'cumsum' | 'cumprod' | 'cummax' | 'cummin' | 'cumavg' 
+  | 'cummed' | 'cumfirstNot' | 'cumlastNot' | 'cumrank' | 'cumcount' 
+  | 'cumpercentile' | 'cumstd' | 'cumstdp' | 'cumvar' | 'cumvarp' 
+  | 'cumsum2' | 'cumsum3' | 'cumsum4' | 'cumnunique' | 'cumPositiveStreak'
+  | 'cumbeta' | 'cumwsum' | 'cumwavg' | 'cumcovar' | 'cumcorr';
 
 export type AppMode = 
   | 'conditionalIterate' 
@@ -183,7 +193,8 @@ export type AppMode =
   | 'twindow'
   | 'tmoving'
   | 'rolling'
-  | 'rowGroupby';
+  | 'rowGroupby'
+  | 'cum';
 
 // Default Simulation Parameters
 export const DEFAULTS = {
