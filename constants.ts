@@ -133,6 +133,26 @@ export const TMOVING_X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 export const ROLLING_AAPL = [0.0177, -0.0148, 0.0125, 0.0008, 0.0152, 0.0083, 0.0041, -0.0074, -0.0006, 0.0023, 0.0120, -0.0009, -0.0015, -0.0013, 0.0026, -0.0078, 0.0031, -0.0075, -0.0043, -0.0059, -0.0011, -0.0077, 0.0009];
 export const ROLLING_SPY = [-0.0008, -0.0064, 0.0029, 0.0011, 0.0082, -0.0006, 0.0006, -0.0025, 0.0046, -0.0009, 0.0029, -0.0052, 0.0019, 0.0022, -0.0015, 0.0000, 0.0020, -0.0051, -0.0007, -0.0019, 0.0049, -0.0016, -0.0028];
 
+// RowGroupby Example Data (Matrix - Transposed to Rows for processing)
+// Original Columns:
+// M: [32.5...], [17.5...], [17...]
+// G: [1...], [2...], [1...]
+export const ROWGROUPBY_M = [
+    [32.5, 17.5, 17.0],
+    [12.6, 25.5, 20.1],
+    [22.5, 35.5, 30.0],
+    [42.5, 17.3, 13.0],
+    [32.6, 19.3, 19.0]
+];
+export const ROWGROUPBY_G = [
+    [1, 2, 1],
+    [2, 2, 3],
+    [2, 3, 2],
+    [5, 2, 3],
+    [4, 1, 5]
+];
+
+export type RowGroupbyMode = 'tuple' | 'dict' | 'table';
 
 export type FuncType = 'msum' | 'mavg' | 'move' | 'mmax' | 'mmin' | 'mcount' | 'tmsum';
 export type AccFunc = 'sum' | 'prod' | 'max';
@@ -162,7 +182,8 @@ export type AppMode =
   | 'window'
   | 'twindow'
   | 'tmoving'
-  | 'rolling';
+  | 'rolling'
+  | 'rowGroupby';
 
 // Default Simulation Parameters
 export const DEFAULTS = {

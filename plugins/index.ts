@@ -19,6 +19,7 @@ import { WindowPlugin } from './WindowPlugin';
 import { TWindowPlugin } from './TWindowPlugin';
 import { TMovingPlugin } from './TMovingPlugin';
 import { RollingPlugin } from './RollingPlugin';
+import { RowGroupbyPlugin } from './RowGroupbyPlugin';
 
 export const plugins = [
   AccumulatePlugin,
@@ -40,7 +41,8 @@ export const plugins = [
   WindowPlugin,
   TWindowPlugin,
   TMovingPlugin,
-  RollingPlugin
+  RollingPlugin,
+  RowGroupbyPlugin
 ];
 
 export const registerPlugins = () => {
