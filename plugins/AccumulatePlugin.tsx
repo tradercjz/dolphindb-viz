@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { AccumulateStage } from '../components/AccumulateStage';
 import { useAccumulateLogic } from '../hooks/useAccumulateLogic';
 import { AccFunc } from '../constants';
 
-const AccumulateScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const AccumulateScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const logic = useAccumulateLogic(params.func || 'sum');
+  
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
+
   return <AccumulateStage progress={progress} logic={logic} />;
 };
 

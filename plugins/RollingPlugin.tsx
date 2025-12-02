@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { RollingStage } from '../components/RollingStage';
 import { useRollingLogic } from '../hooks/useRollingLogic';
 
-const RollingScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const RollingScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const logic = useRollingLogic(params.window || 10, params.step || 1);
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <RollingStage

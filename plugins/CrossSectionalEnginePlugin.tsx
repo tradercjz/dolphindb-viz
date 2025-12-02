@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { CSEStage } from '../components/CSEStage';
 import { useCrossSectionalEngineLogic } from '../hooks/useCrossSectionalEngineLogic';
 
-const CSEScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const CSEScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const logic = useCrossSectionalEngineLogic();
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <CSEStage

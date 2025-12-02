@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { PivotStage } from '../components/PivotStage';
 import { usePivotLogic } from '../hooks/usePivotLogic';
 
-const PivotScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const PivotScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const logic = usePivotLogic(params.pivotFunc);
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <PivotStage

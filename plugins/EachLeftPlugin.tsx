@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { EachStage } from '../components/EachStage';
 import { useEachLogic } from '../hooks/useEachLogic';
 
-const EachLeftScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const EachLeftScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const logic = useEachLogic('left');
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <EachStage

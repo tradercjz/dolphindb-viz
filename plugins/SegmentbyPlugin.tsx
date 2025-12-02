@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { SegmentbyStage } from '../components/SegmentbyStage';
 import { useSegmentbyLogic } from '../hooks/useSegmentbyLogic';
 import { SegmentFunc } from '../constants';
 
-const SegmentbyScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const SegmentbyScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const logic = useSegmentbyLogic(params.func || 'sum');
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <SegmentbyStage

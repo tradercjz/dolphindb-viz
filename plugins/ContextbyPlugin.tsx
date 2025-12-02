@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { GroupingStage } from '../components/GroupingStage';
 import { useGroupingLogic } from '../hooks/useGroupingLogic';
 import { GroupFunc } from '../constants';
 
-const ContextbyScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const ContextbyScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const logic = useGroupingLogic('contextby', params.func || 'sum');
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <GroupingStage

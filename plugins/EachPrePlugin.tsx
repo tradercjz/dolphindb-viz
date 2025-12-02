@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { EachPairStage } from '../components/EachPairStage';
 import { useEachPairLogic } from '../hooks/useEachPairLogic';
 import { PairFunc } from '../constants';
 
-const EachPreScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const EachPreScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const logic = useEachPairLogic('pre', params.func || 'sub', params.boundaryVal ?? 0);
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <EachPairStage

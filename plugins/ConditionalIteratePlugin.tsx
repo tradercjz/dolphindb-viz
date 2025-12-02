@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { DataPipeline } from '../components/DataPipeline';
 import { useConditionalIterateLogic } from '../hooks/useConditionalIterate';
 import { FuncType, DEFAULTS } from '../constants';
 
-const ConditionalIterateScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const ConditionalIterateScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const results = useConditionalIterateLogic(params.threshold, params.funcType, params.funcWindow);
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(results.length);
+    }
+  }, [results, onStepsReady]);
 
   return (
     <DataPipeline

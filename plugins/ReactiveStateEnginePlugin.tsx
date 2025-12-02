@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { RSEStage } from '../components/RSEStage';
 import { useReactiveStateEngineLogic } from '../hooks/useReactiveStateEngineLogic';
 
-const RSEScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const RSEScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const logic = useReactiveStateEngineLogic(params.rseFunc || 'msum');
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <RSEStage

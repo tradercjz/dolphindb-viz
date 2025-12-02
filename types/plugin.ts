@@ -14,6 +14,7 @@ export interface Plugin {
     isPlaying: boolean;
     progress: number;
     params: any;
+    onStepsReady?: (steps: number) => void;
   }>;
 
   /**

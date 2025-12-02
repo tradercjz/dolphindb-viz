@@ -14,6 +14,7 @@ export default function AppPlugin() {
   const [params, setParams] = useState<any>({});
   const [progress, setProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [maxSteps, setMaxSteps] = useState(10);
 
   const activePlugin = plugins.find(p => p.id === activePluginId);
 
@@ -23,6 +24,7 @@ export default function AppPlugin() {
       setParams(activePlugin.defaultParams || {});
       setProgress(0);
       setIsPlaying(false);
+      setMaxSteps(10); // Default reset
     }
   }, [activePluginId]);
 
@@ -37,16 +39,10 @@ export default function AppPlugin() {
 
       if (isPlaying) {
         setProgress((prev) => {
-          // Assuming a default duration or max steps. 
-          // Ideally, the plugin should tell us the max steps.
-          // For now, let's assume 10 steps or loop.
-          // In the original App, totalSteps was derived from data length.
-          // We might need to expose `totalSteps` from the plugin logic or scene.
-          // For this refactor, let's just increment indefinitely or loop at 10.
           const newProgress = prev + delta * 1.5;
-          if (newProgress > 10) {
+          if (newProgress > maxSteps) {
              setIsPlaying(false);
-             return 0;
+             return maxSteps;
           }
           return newProgress;
         });
@@ -60,7 +56,7 @@ export default function AppPlugin() {
     }
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPlaying]);
+  }, [isPlaying, maxSteps]);
 
   return (
     <div className="relative w-full h-screen bg-[#050505] overflow-hidden font-mono flex">
@@ -91,6 +87,7 @@ export default function AppPlugin() {
                 isPlaying={isPlaying} 
                 progress={progress} 
                 params={params} 
+                onStepsReady={setMaxSteps}
               />
             )}
           </Canvas>
@@ -114,7 +111,7 @@ export default function AppPlugin() {
                 Reset
               </button>
               <div className="text-sm font-mono">
-                Progress: {progress.toFixed(2)}
+                Progress: {progress.toFixed(2)} / {maxSteps}
               </div>
             </div>
           </div>

@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { AggrTopNStage } from '../components/AggrTopNStage';
 import { useAggrTopNLogic, AggrFunc } from '../hooks/useAggrTopNLogic';
 
-const AggrTopNScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const AggrTopNScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const logic = useAggrTopNLogic(params.func || 'sum', params.top || 3, params.ascending ?? false);
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <AggrTopNStage

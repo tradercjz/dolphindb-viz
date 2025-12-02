@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Plugin } from '../types/plugin';
 import { TSEngineStage } from '../components/TSEngineStage';
 import { useTimeSeriesEngineLogic } from '../hooks/useTimeSeriesEngineLogic';
 import { DEFAULTS } from '../constants';
 
-const TSEngineScene: React.FC<{ isPlaying: boolean; progress: number; params: any }> = ({ isPlaying, progress, params }) => {
+const TSEngineScene: React.FC<{ isPlaying: boolean; progress: number; params: any; onStepsReady?: (steps: number) => void }> = ({ isPlaying, progress, params, onStepsReady }) => {
   const logic = useTimeSeriesEngineLogic(params.tsWindowSize, params.tsStep);
+
+  useEffect(() => {
+    if (onStepsReady) {
+      onStepsReady(logic.length);
+    }
+  }, [logic, onStepsReady]);
 
   return (
     <TSEngineStage
