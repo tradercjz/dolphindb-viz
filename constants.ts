@@ -115,6 +115,9 @@ export const SEGMENT_DATA = {
     segment: [1, 1, 1, -1, -1, -1, 1, 1, 1]
 };
 
+// Window Example Data
+export const WINDOW_DATA = [5, 4, null, -1, 2, 4];
+
 // Rolling Example Data (AAPL vs SPY)
 export const ROLLING_AAPL = [0.0177, -0.0148, 0.0125, 0.0008, 0.0152, 0.0083, 0.0041, -0.0074, -0.0006, 0.0023, 0.0120, -0.0009, -0.0015, -0.0013, 0.0026, -0.0078, 0.0031, -0.0075, -0.0043, -0.0059, -0.0011, -0.0077, 0.0009];
 export const ROLLING_SPY = [-0.0008, -0.0064, 0.0029, 0.0011, 0.0082, -0.0006, 0.0006, -0.0025, 0.0046, -0.0009, 0.0029, -0.0052, 0.0019, 0.0022, -0.0015, 0.0000, 0.0020, -0.0051, -0.0007, -0.0019, 0.0049, -0.0016, -0.0028];
@@ -125,6 +128,7 @@ export type AccFunc = 'sum' | 'prod' | 'max';
 export type PairFunc = 'sub' | 'add' | 'ratio';
 export type GroupFunc = 'sum' | 'avg' | 'max' | 'count';
 export type SegmentFunc = 'cumsum' | 'cummax' | 'cummin';
+export type WindowFunc = 'min' | 'max' | 'avg' | 'sum';
 
 export type AppMode = 
   | 'conditionalIterate' 
@@ -144,6 +148,7 @@ export type AppMode =
   | 'groupby'
   | 'contextby'
   | 'segmentby'
+  | 'window'
   | 'rolling';
 
 // Default Simulation Parameters
