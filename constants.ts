@@ -1,4 +1,3 @@
-
 // Data Configuration matching the DolphinDB script
 // val0 sequence: 1, 3, 6 repeating. Length 10.
 export const DATA_INPUTS = [1, 3, 6, 1, 3, 6, 1, 3, 6, 1]; 
@@ -124,6 +123,12 @@ export const WINDOW_DATA = [5, 4, null, -1, 2, 4];
 export const TWINDOW_T = [1, 1, 5, 9, 10, 12, 12];
 export const TWINDOW_X = [-5, 5, null, -1, 2, 4, -8];
 
+// TMoving Example Data
+// T: 1, 2, 2, 2, 3, 4, 5, 6, 9, 10, 14
+// X: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+export const TMOVING_T = [1, 2, 2, 2, 3, 4, 5, 6, 9, 10, 14];
+export const TMOVING_X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
 // Rolling Example Data (AAPL vs SPY)
 export const ROLLING_AAPL = [0.0177, -0.0148, 0.0125, 0.0008, 0.0152, 0.0083, 0.0041, -0.0074, -0.0006, 0.0023, 0.0120, -0.0009, -0.0015, -0.0013, 0.0026, -0.0078, 0.0031, -0.0075, -0.0043, -0.0059, -0.0011, -0.0077, 0.0009];
 export const ROLLING_SPY = [-0.0008, -0.0064, 0.0029, 0.0011, 0.0082, -0.0006, 0.0006, -0.0025, 0.0046, -0.0009, 0.0029, -0.0052, 0.0019, 0.0022, -0.0015, 0.0000, 0.0020, -0.0051, -0.0007, -0.0019, 0.0049, -0.0016, -0.0028];
@@ -156,6 +161,7 @@ export type AppMode =
   | 'segmentby'
   | 'window'
   | 'twindow'
+  | 'tmoving'
   | 'rolling';
 
 // Default Simulation Parameters
