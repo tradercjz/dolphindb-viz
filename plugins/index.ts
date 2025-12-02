@@ -31,8 +31,12 @@ import { BucketPlugin } from './BucketPlugin';
 import { CutPointsPlugin } from './CutPointsPlugin';
 import { DailyAlignedBarPlugin } from './DailyAlignedBarPlugin';
 import { DigitizePlugin } from './DigitizePlugin';
+import { GroupsPlugin } from './GroupsPlugin';
+import { SegmentPlugin } from './SegmentPlugin';
 
 export const plugins = [
+  SegmentPlugin,
+  GroupsPlugin,
   DigitizePlugin,
   DailyAlignedBarPlugin,
   CutPointsPlugin,
