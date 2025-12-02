@@ -34,8 +34,10 @@ import { DigitizePlugin } from './DigitizePlugin';
 import { GroupsPlugin } from './GroupsPlugin';
 import { SegmentPlugin } from './SegmentPlugin';
 import { VolumeBarPlugin } from './VolumeBarPlugin';
+import { FlattenPlugin } from './FlattenPlugin';
 
 export const plugins = [
+  FlattenPlugin,
   VolumeBarPlugin,
   SegmentPlugin,
   GroupsPlugin,
