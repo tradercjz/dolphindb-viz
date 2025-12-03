@@ -40,8 +40,10 @@ import { ReshapePlugin } from './ReshapePlugin';
 import { ShufflePlugin } from './ShufflePlugin';
 import { ShuffleInPlacePlugin } from './ShuffleInPlacePlugin';
 import { UngroupPlugin } from './UngroupPlugin';
+import { ConcatMatrixPlugin } from './ConcatMatrixPlugin';
 
 export const plugins = [
+  ConcatMatrixPlugin,
   UngroupPlugin,
   ShuffleInPlacePlugin,
   ShufflePlugin,
