@@ -42,8 +42,10 @@ import { ShuffleInPlacePlugin } from './ShuffleInPlacePlugin';
 import { UngroupPlugin } from './UngroupPlugin';
 import { ConcatMatrixPlugin } from './ConcatMatrixPlugin';
 import { JoinPlugin } from './JoinPlugin';
+import { JoinInPlacePlugin } from './JoinInPlacePlugin';
 
 export const plugins = [
+  JoinInPlacePlugin,
   JoinPlugin,
   ConcatMatrixPlugin,
   UngroupPlugin,
