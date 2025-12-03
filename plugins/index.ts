@@ -45,8 +45,10 @@ import { JoinPlugin } from './JoinPlugin';
 import { JoinInPlacePlugin } from './JoinInPlacePlugin';
 import { MergePlugin } from './MergePlugin';
 import { UnionPlugin } from './UnionPlugin';
+import { UnionAllPlugin } from './UnionAllPlugin';
 
 export const plugins = [
+  UnionAllPlugin,
   UnionPlugin,
   MergePlugin,
   JoinInPlacePlugin,

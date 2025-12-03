@@ -1,8 +1,8 @@
-export type ValueType = 'scalar' | 'vector' | 'tuple' | 'matrix';
+export type ValueType = 'scalar' | 'vector' | 'tuple' | 'matrix' | 'table';
 
 export interface Value {
     type: ValueType;
-    val: any; // number, Value[], or Value[][]
+    val: any; // number, Value[], Value[][], or {[col: string]: any[]}
     id: string; // Unique ID for animation
 }
 
@@ -30,9 +30,58 @@ export const splitByComma = (str: string): string[] => {
     return parts;
 };
 
+const parseRange = (str: string): number[] | null => {
+    const match = str.match(/^(\d+)\.\.(\d+)$/);
+    if (match) {
+        const start = parseInt(match[1]);
+        const end = parseInt(match[2]);
+        const res = [];
+        for (let i = start; i <= end; i++) res.push(i);
+        return res;
+    }
+    return null;
+};
+
 export const parse = (str: string): Value => {
     str = str.trim();
-    if (str.startsWith('(') && str.endsWith(')')) {
+    
+    if (str.startsWith('table(') && str.endsWith(')')) {
+        // Table
+        const inner = str.slice(6, -1);
+        const parts = splitByComma(inner);
+        const tableData: {[col: string]: any[]} = {};
+        
+        parts.forEach(part => {
+            const asIndex = part.toLowerCase().lastIndexOf(' as ');
+            if (asIndex !== -1) {
+                const valStr = part.slice(0, asIndex).trim();
+                const colName = part.slice(asIndex + 4).trim();
+                
+                // Parse value
+                let colValues: any[] = [];
+                const rangeVal = parseRange(valStr);
+                if (rangeVal) {
+                    colValues = rangeVal;
+                } else {
+                    const parsedVal = parse(valStr);
+                    if (parsedVal.type === 'vector') {
+                        colValues = (parsedVal.val as Value[]).map(v => v.val);
+                    } else if (parsedVal.type === 'scalar') {
+                         // Should probably be a vector if it's a table column, but maybe single value repeated?
+                         // For now assume it's a vector definition like [1, 2, 3]
+                         colValues = [parsedVal.val];
+                    }
+                }
+                tableData[colName] = colValues;
+            }
+        });
+
+        return {
+            type: 'table',
+            val: tableData,
+            id: generateId()
+        };
+    } else if (str.startsWith('(') && str.endsWith(')')) {
         // Tuple
         const inner = str.slice(1, -1);
         const parts = splitByComma(inner);
@@ -58,7 +107,17 @@ export const parse = (str: string): Value => {
             id: generateId()
         };
     } else {
-        // Scalar
+        // Scalar or Range
+        const rangeVal = parseRange(str);
+        if (rangeVal) {
+             // Range is technically a vector
+             return {
+                 type: 'vector',
+                 val: rangeVal.map(n => ({ type: 'scalar', val: n, id: generateId() })),
+                 id: generateId()
+             };
+        }
+
         const n = Number(str);
         return {
             type: 'scalar',
