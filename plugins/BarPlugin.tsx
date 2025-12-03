@@ -39,12 +39,11 @@ const BarParams: React.FC<{
       <div>
         <label className="text-[10px] text-gray-400 mb-1 block uppercase tracking-wider">Interval</label>
         <input
-          type="number"
-          min="1"
-          max="10"
+          type="text"
           value={params.interval}
-          onChange={(e) => setParams({ ...params, interval: Number(e.target.value) })}
+          onChange={(e) => setParams({ ...params, interval: e.target.value })}
           className="w-full bg-gray-800 text-white px-2 py-1 rounded border border-gray-700 text-xs"
+          placeholder="e.g. 3 or 1d"
         />
       </div>
       <div>
@@ -78,7 +77,7 @@ export const BarPlugin: Plugin = {
   ParameterPanelComponent: BarParams,
   defaultParams: {
     X: '1, 3, 5, 7, 9, 10, 12, 14, 15, 18',
-    interval: 3,
+    interval: '3',
     closed: 'left'
   }
 };
