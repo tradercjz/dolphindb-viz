@@ -44,8 +44,10 @@ import { ConcatMatrixPlugin } from './ConcatMatrixPlugin';
 import { JoinPlugin } from './JoinPlugin';
 import { JoinInPlacePlugin } from './JoinInPlacePlugin';
 import { MergePlugin } from './MergePlugin';
+import { UnionPlugin } from './UnionPlugin';
 
 export const plugins = [
+  UnionPlugin,
   MergePlugin,
   JoinInPlacePlugin,
   JoinPlugin,
