@@ -2,6 +2,10 @@
 
 A powerful 3D visualization tool designed to help developers and users understand the internal logic and data flow of DolphinDB's complex functions, specifically focusing on state iteration, windowing, and table operations.
 
+## Live Demo
+
+Experience the visualization tool directly in your browser: [3d.dolphindb.cloud](https://3d.dolphindb.cloud)
+
 ## Overview
 
 DolphinDB provides a rich set of functions for high-performance time-series data analysis. However, understanding the precise behavior of functions like `accumulate`, `window`, or various state engines can be challenging. This project visualizes these functions step-by-step in an interactive 3D environment, making the abstract concepts concrete and easy to grasp.
